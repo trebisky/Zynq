@@ -1,11 +1,18 @@
-Zynq FSBL (first stage boot loader)
+Zynq projects - fsbl
 
-I began with the sources distributed by Xilinx:
+This "project" is entirely source code from Xilinx
 
-https://github.com/Xilinx/embeddedsw
+I obtained their "embeddedsw" package, and spent nearly a week
+pulling the fsbl files out of it and rearranging them.
 
-The FSBL is just a part of the above, and it is simple
-and easy to build it by following their instructions.
+The purpose of all that effort is to be able to study their
+code without tripping over all kinds of dead wood and files
+that are not actually being used.
 
-My goal is to copy and rearrange their sources so they
-are easier for me to study.
+I may also trim the comments contained in the source files,
+many of which record version history that is only of interest
+to Xilinx.  I will take care to retain their copyrights.
+
+They offer this code for anyone to use and modify.
+I have little if any interest in actually running it,
+but I certainly could if I wished to.
