@@ -1,0 +1,47 @@
+#!/bin/bash
+
+XSRC="/u1/Projects/Ebaz/embeddedsw/lib/sw_apps/zynq_fsbl"
+
+ZEDSRC=$XSRC/misc/zed
+STANDSRC=$XSRC/misc/ps7_cortexa9_0/libsrc/standalone/src
+LIBSRC=$XSRC/misc/ps7_cortexa9_0/libsrc
+
+cp $ZEDSRC/inbyte.c .
+cp $ZEDSRC/outbyte.c .
+
+cp $STANDSRC/sleep.c .
+cp $STANDSRC/usleep.c .
+
+cp $LIBSRC/devcfg/src/*.c .
+cp $LIBSRC/devcfg/src/*.h .
+
+cp $STANDSRC/xil_assert.c .
+cp $STANDSRC/xil_assert.h .
+cp $STANDSRC/xil_cache.c .
+cp $STANDSRC/xil_cache.h .
+
+#cp $STANDSRC/xil_mem.c .
+#cp $STANDSRC/xil_mem.h .
+#cp $STANDSRC/xil_mmu.c .
+#cp $STANDSRC/xil_mmu.h .
+
+cp $STANDSRC/xil_sleepcommon.c .
+# not needed.
+#cp $STANDSRC/xil_sleeptimer.c .
+#cp $STANDSRC/xil_sleeptimer.h .
+
+cp $STANDSRC/xil_util.c .
+cp $STANDSRC/xil_util.h .
+
+cp $LIBSRC/qspips/src/xqspips.c .
+cp $LIBSRC/qspips/src/xqspips.h .
+cp $LIBSRC/qspips/src/xqspips_g.c .
+cp $LIBSRC/qspips/src/xqspips_options.c .
+cp $LIBSRC/qspips/src/xqspips_sinit.c .
+
+cp $LIBSRC/sdps/src/*.c .
+cp $LIBSRC/sdps/src/*.h .
+cp $LIBSRC/uartps/src/xuartps_hw.c .
+cp $LIBSRC/uartps/src/xuartps_hw.h .
+
+# THE END

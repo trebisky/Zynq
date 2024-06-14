@@ -1,0 +1,10 @@
+lib
+*.o
+*.bin
+*.elf
+*.dump
+*.swp
+*.ORIG
+Extra
+OLD
+OLD/*

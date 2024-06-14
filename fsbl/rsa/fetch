@@ -1,0 +1,12 @@
+#!/bin/bash
+
+XSRC="/u1/Projects/Ebaz/embeddedsw/lib/sw_apps/zynq_fsbl"
+
+RSASRC=$XSRC/misc/ps7_cortexa9_0/libsrc/xilrsa/src
+
+# We copy everything in the zynq_fsbl/src directory
+
+#cp $RSASRC/*.a .
+cp $RSASRC/include/*.h .
+
+# THE END

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+XSRC="/u1/Projects/Ebaz/embeddedsw/lib/sw_apps/zynq_fsbl"
+
+FFSSRC=$XSRC/misc/ps7_cortexa9_0/libsrc/xilffs/src
+INCSRC=$XSRC/misc/ps7_cortexa9_0/include
+
+# We copy everything in the zynq_fsbl/src directory
+
+cp $FFSSRC/*.c .
+cp $INCSRC/ff.h .
+cp $INCSRC/ffconf.h .
+cp $INCSRC/diskio.h .
+
+# THE END

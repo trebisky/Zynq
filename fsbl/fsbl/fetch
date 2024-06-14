@@ -1,0 +1,16 @@
+#!/bin/bash
+
+XSRC="/u1/Projects/Ebaz/embeddedsw/lib/sw_apps/zynq_fsbl"
+FSRC=$XSRC/src
+#ISRC=$XSRC/misc/ps7_cortexa9_0/include
+#ZEDSRC=$XSRC/misc/zed
+#STANDSRC=$XSRC/misc/ps7_cortexa9_0/libsrc/standalone/src
+#LIBSRC=$XSRC/misc/ps7_cortexa9_0/lib
+
+# We copy everything in the zynq_fsbl/src directory
+
+cp $FSRC/*.c .
+cp $FSRC/*.h .
+cp $FSRC/*.S .
+
+# THE END

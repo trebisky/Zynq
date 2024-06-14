@@ -1,0 +1,57 @@
+#!/bin/bash
+
+XSRC="/u1/Projects/Ebaz/embeddedsw/lib/sw_apps/zynq_fsbl"
+FSRC=$XSRC/src
+ISRC=$XSRC/misc/ps7_cortexa9_0/include
+ZEDSRC=$XSRC/misc/zed
+STANDSRC=$XSRC/misc/ps7_cortexa9_0/libsrc/standalone/src
+LIBSRC=$XSRC/misc/ps7_cortexa9_0/lib
+
+# only need to do this once
+#cp $ISRC/*.h ./include
+
+cp $LIBSRC/*.a ./lib
+
+cp $XSRC/misc/Xilinx.spec .
+cp $FSRC/lscript.ld .
+
+cp $FSRC/main.c .
+
+# I have modified these files
+# cp $STANDSRC/xil-crt0.S .
+# cp $STANDSRC/xtime_l.c .
+# cp $STANDSRC/xil_printf.c .
+
+cp $STANDSRC/boot.S .
+cp $STANDSRC/asm_vectors.S .
+cp $STANDSRC/translation_table.S .
+cp $STANDSRC/cpu_init.S .
+cp $STANDSRC/xil_errata.h .
+cp $STANDSRC/vectors.c .
+cp $STANDSRC/xil_exception.c .
+
+# from main.c
+cp $FSRC/fsbl.h .
+cp $FSRC/qspi.h .
+cp $FSRC/nand.h .
+cp $FSRC/nor.h .
+cp $FSRC/sd.h .
+cp $FSRC/pcap.h .
+cp $FSRC/image_mover.h .
+cp $FSRC/fsbl_hooks.h .
+cp $FSRC/fsbl_debug.h .
+
+# on conditional
+#cp $FSRC/rsa.h .
+
+cp $ZEDSRC/ps7_init.h .
+cp $ZEDSRC/ps7_init.c .
+cp $ZEDSRC/bspconfig.h .
+
+# on conditional
+#include "xwdtps.h"
+
+# from fsbl.h - on conditionals
+#include "xiltimer.h"
+#include <stdio.h>
+

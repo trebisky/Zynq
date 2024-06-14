@@ -1,0 +1,13 @@
+The RSA stuff is supplied by librsa.a
+
+We do this:
+
+ar t librsa.a
+    SoftRSA.o
+    SoftSHA256.o
+
+Neither SoftRSA.c or SoftSHA256.c are on my system anywhere.
+It would seem that these are supplied in binary form as part of
+the zynq_fsbl distribution.  We don't use them, so it is just
+curiosity to look for them.
+

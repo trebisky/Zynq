@@ -1,0 +1,56 @@
+#!/bin/python3
+
+# -- subprocess is brain damaged
+#import subprocess
+import os
+import glob
+
+list = []
+
+def tryit () :
+    os.system ( "make clean" )
+    rv = os.system ( "make" )
+    return rv
+
+def collect ( dir ) :
+    global list
+    pat = dir + "/*.o"
+    list = glob.glob ( pat )
+
+def omit ( path ) :
+    cmd = "mv " + path + " lib/New/XXX"
+    os.system ( cmd )
+
+def restore () :
+    cmd = "mv lib/New/XXX/* lib/New"
+    os.system ( cmd )
+
+def try_one ( path ) :
+    omit ( path )
+    os.system ( "make -C lib/New rebuild" )
+    rv = tryit ()
+    restore ()
+
+    if rv == 0 :
+        print ( "GOOD" )
+        logline = path + " not-needed"
+    else :
+        print ( "BAD:", rv )
+        logline = path + " Needed"
+
+    with open('pruner.log', 'a') as log:
+        log.write ( logline + "\n" )
+
+# -----------------------
+
+collect ( "lib/New" )
+
+#print ( len(list), " files" )
+
+for x in list :
+    print ( x )
+    try_one ( x )
+
+#try_one ( "lib/New/xuartps.o" )
+
+# The END

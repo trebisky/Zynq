@@ -1,0 +1,124 @@
+lib/New/abort.o not-needed
+lib/New/asm_vectors.o not-needed  < core
+lib/New/boot.o not-needed  < core
+lib/New/close.o not-needed
+lib/New/cpputest_time.o not-needed
+lib/New/cpu_init.o not-needed  < core
+lib/New/errno.o not-needed
+lib/New/_exit.o not-needed
+lib/New/fcntl.o not-needed
+lib/New/fstat.o not-needed
+lib/New/getentropy.o not-needed
+lib/New/getpid.o not-needed
+lib/New/inbyte.o not-needed  < Drivers
+lib/New/isatty.o not-needed
+lib/New/kill.o not-needed
+lib/New/lseek.o not-needed
+lib/New/_open.o not-needed
+lib/New/open.o not-needed
+lib/New/outbyte.o Needed  < Drivers
+lib/New/print.o not-needed
+lib/New/putnum.o not-needed
+lib/New/read.o not-needed
+lib/New/_sbrk.o not-needed
+lib/New/sbrk.o not-needed
+lib/New/sleep.o Needed  < Drivers
+lib/New/time.o not-needed
+lib/New/translation_table.o not-needed  < core
+lib/New/unlink.o not-needed
+lib/New/usleep.o Needed  < Drivers
+lib/New/vectors.o not-needed  < core
+lib/New/write.o not-needed
+lib/New/xadcps_g.o not-needed
+lib/New/xadcps_intr.o not-needed
+lib/New/xadcps.o not-needed
+lib/New/xadcps_selftest.o not-needed
+lib/New/xadcps_sinit.o not-needed
+lib/New/xdevcfg_g.o Needed  < Drivers
+lib/New/xdevcfg_hw.o not-needed
+lib/New/xdevcfg_intr.o Needed  < Drivers
+lib/New/xdevcfg.o Needed  < Drivers
+lib/New/xdevcfg_selftest.o not-needed
+lib/New/xdevcfg_sinit.o Needed  < Drivers
+lib/New/xdmaps_g.o not-needed
+lib/New/xdmaps_hw.o not-needed
+lib/New/xdmaps.o not-needed
+lib/New/xdmaps_selftest.o not-needed
+lib/New/xdmaps_sinit.o not-needed
+lib/New/xemacps_bdring.o not-needed
+lib/New/xemacps_control.o not-needed
+lib/New/xemacps_g.o not-needed
+lib/New/xemacps_hw.o not-needed
+lib/New/xemacps_intr.o not-needed
+lib/New/xemacps.o not-needed
+lib/New/xemacps_sinit.o not-needed
+lib/New/xgpiops_g.o not-needed
+lib/New/xgpiops_hw.o not-needed
+lib/New/xgpiops_intr.o not-needed
+lib/New/xgpiops.o not-needed
+lib/New/xgpiops_selftest.o not-needed
+lib/New/xgpiops_sinit.o not-needed
+lib/New/xil_assert.o Needed  < Drivers
+lib/New/xil_cache.o Needed  < Drivers
+lib/New/xil-crt0.o not-needed  < core
+lib/New/xil_exception.o not-needed  < core
+lib/New/xil_mem.o not-needed
+lib/New/xil_misc_psreset_api.o not-needed
+lib/New/xil_mmu.o not-needed
+lib/New/xil_printf.o not-needed  < core
+lib/New/xil_sleepcommon.o Needed  < Drivers
+lib/New/xil_sleeptimer.o not-needed
+lib/New/xil_spinlock.o not-needed
+lib/New/xil_testcache.o not-needed
+lib/New/xil_testio.o not-needed
+lib/New/xil_testmem.o not-needed
+lib/New/xil_util.o Needed  < Drivers
+lib/New/xl2cc_counter.o not-needed
+lib/New/xplatform_info.o not-needed
+lib/New/xpm_counter.o not-needed
+lib/New/xpm_init.o not-needed
+lib/New/xqspips_g.o Needed  < Drivers
+lib/New/xqspips_hw.o not-needed
+lib/New/xqspips.o Needed  < Drivers
+lib/New/xqspips_options.o Needed  < Drivers
+lib/New/xqspips_selftest.o not-needed
+lib/New/xqspips_sinit.o Needed  < Drivers
+lib/New/xscugic_g.o not-needed
+lib/New/xscugic_hw.o not-needed
+lib/New/xscugic_intr.o not-needed
+lib/New/xscugic.o not-needed
+lib/New/xscugic_selftest.o not-needed
+lib/New/xscugic_sinit.o not-needed
+lib/New/xscutimer_g.o not-needed
+lib/New/xscutimer.o not-needed
+lib/New/xscutimer_selftest.o not-needed
+lib/New/xscutimer_sinit.o not-needed
+lib/New/xscuwdt_g.o not-needed
+lib/New/xscuwdt.o not-needed
+lib/New/xscuwdt_selftest.o not-needed
+lib/New/xscuwdt_sinit.o not-needed
+lib/New/xsdps_card.o Needed  < Drivers
+lib/New/xsdps_g.o Needed  < Drivers
+lib/New/xsdps_host.o Needed  < Drivers
+lib/New/xsdps.o Needed  < Drivers
+lib/New/xsdps_options.o Needed  < Drivers
+lib/New/xsdps_sinit.o Needed  < Drivers
+lib/New/xtime_l.o not-needed  < core
+lib/New/xttcps_g.o not-needed
+lib/New/xttcps.o not-needed
+lib/New/xttcps_options.o not-needed
+lib/New/xttcps_selftest.o not-needed
+lib/New/xttcps_sinit.o not-needed
+lib/New/xuartps_g.o not-needed
+lib/New/xuartps_hw.o Needed  < Drivers
+lib/New/xuartps_intr.o not-needed
+lib/New/xuartps.o not-needed
+lib/New/xuartps_options.o not-needed
+lib/New/xuartps_selftest.o not-needed
+lib/New/xuartps_sinit.o not-needed
+lib/New/xusbps_endpoint.o not-needed
+lib/New/xusbps_g.o not-needed
+lib/New/xusbps_hw.o not-needed
+lib/New/xusbps_intr.o not-needed
+lib/New/xusbps.o not-needed
+lib/New/xusbps_sinit.o not-needed
