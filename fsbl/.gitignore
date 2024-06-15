@@ -6,5 +6,6 @@ lib
 *.swp
 *.ORIG
 Extra
+tags
 OLD
 OLD/*

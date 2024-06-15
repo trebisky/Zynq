@@ -1,0 +1,13 @@
+bootrom.elf
+bootrom.raw
+bootrom.dis
+bootrom.odx
+bootrom.bin
+*.swp
+wrap
+zzz
+*.bak1
+*.bak2
+*.bak3
+*.bak5
+*.bak6

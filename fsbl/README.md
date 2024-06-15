@@ -16,3 +16,13 @@ to Xilinx.  I will take care to retain their copyrights.
 They offer this code for anyone to use and modify.
 I have little if any interest in actually running it,
 but I certainly could if I wished to.
+
+---------------------------------
+
+Top level files are either the first files where the code
+starts up -- or files that I have modified or added for
+some reason.
+
+The fsbl specific main.c is in the "fsbl" directory.
+
+The "drivers" directory holds most of the code.

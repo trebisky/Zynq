@@ -10,6 +10,8 @@
 #define MICROBLAZE_PVR_NONE
 
 /* Definition for hard-float ABI */
+/* TJT -- turn this off
 #define FPU_HARD_FLOAT_ABI_ENABLED 1
+ */
 
 #endif /*end of __BSPCONFIG_H_*/
