@@ -4,6 +4,7 @@
 CC := arm-none-eabi-gcc
 AS=arm-none-eabi-gcc
 LD=arm-none-eabi-gcc
+OD=arm-none-eabi-objdump
 
 #CFLAGS=-Wall -O0 -g3 -c -fmessage-length=0
 CFLAGS=-Wall -O0 -g3 -c
@@ -32,6 +33,10 @@ all: ../fsbl.o
 
 ../fsbl.o:		$(OBJS)
 	$(LD) -r -o ../fsbl.o $(OBJS)
+
+dump:
+	$(OD) -D nand.o
+	#$(OD) -D sd.o
 
 clean:
 	rm -rf *.o

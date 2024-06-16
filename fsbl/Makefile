@@ -96,15 +96,20 @@ L2FLAGS = -lgcc -nostdlib
 
 all: fsbl.elf
 
-fsbl.o:	bogus
+fsbl.o:	FORCE
 	cd fsbl ; make
 	cd ffs ; make
 	cd drivers ; make
 
-bogus:
+FORCE:
 
 fsbl.elf:	$(OBJS)
 	$(LD) $(L1FLAGS)  -o $@ $(OBJS) $(L2FLAGS)
+
+.PHONY:	tags
+
+tags:
+	ctags -R .
 
 clean:
 	rm -f fsbl.elf

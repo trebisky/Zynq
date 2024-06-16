@@ -1,0 +1,8 @@
+#!/bin/bash
+
+SRC="/u1/Projects/ebaz/embeddedsw/XilinxProcessorIPLib/drivers/nandps/src"
+
+cp $SRC/*.c .
+cp $SRC/*.h .
+
+# THE END

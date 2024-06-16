@@ -11,7 +11,7 @@ The projects here are:
 2. fsbl - the Xilinx fsbl code rearranged
 3. secret - the "secret" uart loader in the bootrom
 
-Also see my board specific Zynq projects:
+Also see my board specific Zynq project respositories:
 
 [EBAZ-4205](https://github.com/trebisky/ebaz4205_miner)
 

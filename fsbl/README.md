@@ -26,3 +26,8 @@ some reason.
 The fsbl specific main.c is in the "fsbl" directory.
 
 The "drivers" directory holds most of the code.
+
+This is based on a build for the Zedboard.
+The Zedboard uses Qspi, not nand, so it omits the nand driver.
+I include the "nand" directory so that ctags can find driver code,
+even though it is not included in the build.
