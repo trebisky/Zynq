@@ -199,8 +199,9 @@
 
 
 /* Definitions for peripheral PS7_QSPI_LINEAR_0 */
-#define XPAR_PS7_QSPI_LINEAR_0_S_AXI_BASEADDR 0xFC000000
-#define XPAR_PS7_QSPI_LINEAR_0_S_AXI_HIGHADDR 0xFCFFFFFF
+// TJT disabled the QSPI driver
+// #define XPAR_PS7_QSPI_LINEAR_0_S_AXI_BASEADDR 0xFC000000
+// #define XPAR_PS7_QSPI_LINEAR_0_S_AXI_HIGHADDR 0xFCFFFFFF
 
 
 /* Definitions for peripheral PS7_RAM_0 */
@@ -474,6 +475,21 @@
 #define XPAR_XADCPS_0_BASEADDR 0xF8007100
 #define XPAR_XADCPS_0_HIGHADDR 0xF8007120
 
+/* Added 6-27-2024 by Tom Trebisky
+ * We want the NAND driver for the Antminer S9 and Ebaz boards.
+ */
+
+#define XPAR_XNANDPS_NUM_INSTANCES      1
+#define XPAR_XNANDPS_0_DEVICE_ID        0
+
+// defined in xparameters_ps.h
+// #define XPAR_XPARPORTPS_CTRL_BASEADDR           0xE000E000
+#define XPAR_XNANDPS_0_BASEADDR                 0xE1000000
+#define XPAR_XNANDPS_0_FLASH_WIDTH              8
+
+// Tom adds this just to trigger the code in fsbl/nand.c
+#define XPAR_PS7_NAND_0_BASEADDR                0xE1000000
+
 
 /******************************************************************/
 
@@ -484,4 +500,5 @@
 #define FILE_SYSTEM_USE_STRFUNC 0
 #define FILE_SYSTEM_SET_FS_RPATH 0
 #define FILE_SYSTEM_WORD_ACCESS
+
 #endif  /* end of protection macro */

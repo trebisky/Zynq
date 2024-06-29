@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Move some files over to the include directory
+# These are pulled in by nand.h
+
+#mv xnandps.h ../include
+#mv xnandps_hw.h ../include
+mv xnandps_bbm.h ../include
+
+# note that xnandps_onfi.h is not needed.
+
+# THE END

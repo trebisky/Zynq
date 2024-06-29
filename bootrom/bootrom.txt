@@ -2483,8 +2483,8 @@
 ; handler for SD card boot
 ; 0x1871c is the address of "BOOT.BIN"
 00001b70:	e308071c	movw	r0, #0x871c
-00001b74:	e3400001 	movt	r0, #1
-00001b78:	eb002131 	bl	0xa044
+00001b74:	e3400001 	movt	r0, #1		; r0 = 0x1871c
+00001b78:	eb002131 	bl	0xa044		; call InitSD ( "BOOT.BIN" )
 00001b7c:	e3500000 	cmp	r0, #0
 00001b80:	1a00008f 	bne	0x1dc4
 00001b84:	e300e68c	movw	lr, #0x68c	; ..
@@ -7903,8 +7903,12 @@
 00006bdc:	e58ce004 	str	lr, [ip, #4]
 00006be0:	1afffff5 	bne	0x6bbc
 00006be4:	eaffffb9 	b	0x6ad0
-00006be8:	000185a0 	andeq	r8, r1, r0, lsr #11
-00006bec:	000185b8 			@ <UNDEFINED> instruction: 0x000185b8
+
+; data referenced above
+00006be8:	000185a0
+00006bec:	000185b8
+
+; subroutine
 00006bf0:	e92d4ff0 	push	{r4, r5, r6, r7, r8, r9, sl, fp, lr}
 00006bf4:	e1a05000 	mov	r5, r0
 00006bf8:	e24dd014 	sub	sp, sp, #20
@@ -10373,6 +10377,8 @@
 000091b4:	ebfffd77 	bl	0x8798
 000091b8:	e1a03000 	mov	r3, r0
 000091bc:	eaffffca 	b	0x90ec
+
+; subroutine
 000091c0:	e92d4010 	push	{r4, lr}
 000091c4:	e1a04000 	mov	r4, r0
 000091c8:	e1d410b4 	ldrh	r1, [r4, #4]
@@ -10381,25 +10387,29 @@
 000091d4:	e3500000 	cmp	r0, #0
 000091d8:	05840000 	streq	r0, [r4]
 000091dc:	e8bd8010 	pop	{r4, pc}
+
+; subroutine, one call
+;  r0 = some control structure for SD card
+;  r1 = source offset
 000091e0:	e92d47f0 	push	{r4, r5, r6, r7, r8, r9, sl, lr}
-000091e4:	e1a04000 	mov	r4, r0
-000091e8:	e1a05001 	mov	r5, r1
+000091e4:	e1a04000 	mov	r4, r0		; r4 = ctl
+000091e8:	e1a05001 	mov	r5, r1		; r5 = offset
 000091ec:	e5900000 	ldr	r0, [r0]
 000091f0:	e1d410b4 	ldrh	r1, [r4, #4]
 000091f4:	ebfffc51 	bl	0x8340
 000091f8:	e2508000 	subs	r8, r0, #0
-000091fc:	1a000037 	bne	0x92e0
+000091fc:	1a000037 	bne	0x92e0		; return ( r8 )
 00009200:	e1d430d6 	ldrsb	r3, [r4, #6]
 00009204:	e3530000 	cmp	r3, #0
 00009208:	b3a08002 	movlt	r8, #2
-0000920c:	ba000033 	blt	0x92e0
+0000920c:	ba000033 	blt	0x92e0		; return ( r8 )
 00009210:	e594700c 	ldr	r7, [r4, #12]
 00009214:	e594a008 	ldr	sl, [r4, #8]
 00009218:	e1550007 	cmp	r5, r7
 0000921c:	31a07005 	movcc	r7, r5
 00009220:	e5848008 	str	r8, [r4, #8]
 00009224:	e3570000 	cmp	r7, #0
-00009228:	0a00002c 	beq	0x92e0
+00009228:	0a00002c 	beq	0x92e0		; return ( r8 )
 0000922c:	e5946000 	ldr	r6, [r4]
 00009230:	e35a0000 	cmp	sl, #0
 00009234:	e5d65002 	ldrb	r5, [r6, #2]
@@ -10441,13 +10451,15 @@
 000092c4:	e1a0cb82 	lsl	ip, r2, #23
 000092c8:	e1a00bac 	lsr	r0, ip, #23
 000092cc:	e3500000 	cmp	r0, #0
-000092d0:	0a000002 	beq	0x92e0
+000092d0:	0a000002 	beq	0x92e0		; return ( r8 )
 000092d4:	e5943018 	ldr	r3, [r4, #24]
 000092d8:	e1530001 	cmp	r3, r1
 000092dc:	15841018 	strne	r1, [r4, #24]
+
 000092e0:	e1a00008 	mov	r0, r8
 000092e4:	e8bd87f0 	pop	{r4, r5, r6, r7, r8, r9, sl, pc}
 
+; same routine, still going
 000092e8:	e5941010 	ldr	r1, [r4, #16]
 000092ec:	e5841014 	str	r1, [r4, #20]
 000092f0:	e3510000 	cmp	r1, #0
@@ -10459,6 +10471,8 @@
 00009308:	80657007 	rsbhi	r7, r5, r7
 0000930c:	8a00000d 	bhi	0x9348
 00009310:	eaffffda 	b	0x9280
+
+; code above jumps into this below
 00009314:	e3500001 	cmp	r0, #1
 00009318:	9a000017 	bls	0x937c
 0000931c:	e5946000 	ldr	r6, [r4]
@@ -10472,13 +10486,15 @@
 0000933c:	e5842008 	str	r2, [r4, #8]
 00009340:	2affffce 	bcs	0x9280
 00009344:	e1a07003 	mov	r7, r3
+; code from above enters here.
 00009348:	e1a00006 	mov	r0, r6
 0000934c:	ebfffd11 	bl	0x8798
 00009350:	e087300a 	add	r3, r7, sl
 00009354:	e3700001 	cmn	r0, #1
 00009358:	e1a01000 	mov	r1, r0
 0000935c:	e0832005 	add	r2, r3, r5
-00009360:	1affffeb 	bne	0x9314
+00009360:	1affffeb 	bne	0x9314		; loop up
+
 00009364:	e5d4c006 	ldrb	ip, [r4, #6]
 00009368:	e3a08001 	mov	r8, #1
 0000936c:	e1e02c8c 	mvn	r2, ip, lsl #25
@@ -11312,11 +11328,11 @@
 
 ; Called from one location 
 ; r0 holds address of string "BOOT.BIN"
-; this handles the bulk of SD card boot.
+; probably InitSD ( "BOOT.BIN" )
 0000a044:	e92d40f8 	push	{r3, r4, r5, r6, r7, lr}
 0000a048:	e3004224	movw	r4, #0x224
 0000a04c:	e3404007 	movt	r4, #7
-0000a050:	e1a06000 	mov	r6, r0
+0000a050:	e1a06000 	mov	r6, r0		; r6 = r0
 0000a054:	e3a00e7a 	mov	r0, #0x7a0	; MIO-40
 0000a058:	e3a01080 	mov	r1, #128	@ 0x80
 0000a05c:	e34f0800	movt	r0, #0xf800
@@ -11349,13 +11365,17 @@
 0000a0c4:	ebfffb5d 	bl	0x8e40
 0000a0c8:	e2507000 	subs	r7, r0, #0
 0000a0cc:	0a000001 	beq	0xa0d8
+
+; error return 1
 0000a0d0:	e3a00001 	mov	r0, #1
 0000a0d4:	e8bd80f8 	pop	{r3, r4, r5, r6, r7, pc}
 
 ; branch from above
+; copy the "BOOT.BIN" string
 0000a0d8:	e1a00005 	mov	r0, r5		; dest
 0000a0dc:	e1a01006 	mov	r1, r6		; source
 0000a0e0:	ebffdced 	bl	0x149c		; copy
+
 0000a0e4:	e30034a0	movw	r3, #0x4a0
 0000a0e8:	e3a02000 	mov	r2, #0
 0000a0ec:	e3403007 	movt	r3, #7
@@ -11364,30 +11384,37 @@
 0000a0f8:	e5832000 	str	r2, [r3]
 0000a0fc:	e1a00007 	mov	r0, r7
 0000a100:	e8bd80f8 	pop	{r3, r4, r5, r6, r7, pc}
+
+; SDAccess ??
+; SDAccess ( source, destination, count )
 0000a104:	e92d40f0 	push	{r4, r5, r6, r7, lr}
 0000a108:	e3004224	movw	r4, #0x224
-0000a10c:	e3404007 	movt	r4, #7
-0000a110:	e1a05000 	mov	r5, r0
-0000a114:	e1a00004 	mov	r0, r4
-0000a118:	e24dd00c 	sub	sp, sp, #12
-0000a11c:	e1a07001 	mov	r7, r1
-0000a120:	e1a06002 	mov	r6, r2
+0000a10c:	e3404007 	movt	r4, #7		; r4 = 0x70224
+0000a110:	e1a05000 	mov	r5, r0		; r5 = r0 (src)
+0000a114:	e1a00004 	mov	r0, r4		; r0 = r4
+0000a118:	e24dd00c 	sub	sp, sp, #12	; 12 bytes on stack
+0000a11c:	e1a07001 	mov	r7, r1		; r7 = r1 (dest)
+0000a120:	e1a06002 	mov	r6, r2		; r6 = r2 (count)
 0000a124:	e4901248 	ldr	r1, [r0], #584	@ 0x248
-0000a128:	e3a02001 	mov	r2, #1
+0000a128:	e3a02001 	mov	r2, #1		; r2 = 1
 0000a12c:	ebfffb52 	bl	0x8e7c
 0000a130:	e3500000 	cmp	r0, #0
 0000a134:	0a000002 	beq	0xa144
+
+; error return 1
 0000a138:	e3a00001 	mov	r0, #1
 0000a13c:	e28dd00c 	add	sp, sp, #12
 0000a140:	e8bd80f0 	pop	{r4, r5, r6, r7, pc}
-0000a144:	e1a01005 	mov	r1, r5
+
+0000a144:	e1a01005 	mov	r1, r5		; r1 = r5 (src)
 0000a148:	e2840f92 	add	r0, r4, #584	@ 0x248
 0000a14c:	ebfffc23 	bl	0x91e0
 0000a150:	e2505000 	subs	r5, r0, #0
-0000a154:	1afffff7 	bne	0xa138
-0000a158:	e1a01007 	mov	r1, r7
-0000a15c:	e1a02006 	mov	r2, r6
-0000a160:	e28d3004 	add	r3, sp, #4
+0000a154:	1afffff7 	bne	0xa138		; up to error return
+
+0000a158:	e1a01007 	mov	r1, r7		; r1 = r7 (dest)
+0000a15c:	e1a02006 	mov	r2, r6		; r2 = r6 (count)
+0000a160:	e28d3004 	add	r3, sp, #4	; r3 = sp + 4
 0000a164:	e2840f92 	add	r0, r4, #584	@ 0x248
 0000a168:	ebfffb83 	bl	0x8f7c
 0000a16c:	e2840f92 	add	r0, r4, #584	@ 0x248
@@ -11396,7 +11423,9 @@
 0000a178:	eaffffef 	b	0xa13c
 0000a17c:	e51f0000 	ldr	r0, [pc, #-0]	@ 0xa184
 0000a180:	eafffc0e 	b	0x91c0
-0000a184:	0007046c 	andeq	r0, r7, ip, ror #8
+
+; data used just above
+0000a184:	0007046c
 
 ; subroutine ( uart getc() )
 0000a188:	e92d4010 	push	{r4, lr}
@@ -12615,6 +12644,8 @@
 ; spin
 0000b034:	eafffffe 	b	0xb034
 
+; ================================= begin cache routines
+
 ; subroutine - one call
 ; a bunch of cache setup
 0000b038:	e92d41f0 	push	{r4, r5, r6, r7, r8, lr}
@@ -12639,6 +12670,7 @@
 0000b084:	e2408001 	sub	r8, r0, #1
 0000b088:	e1a07006 	mov	r7, r6
 0000b08c:	e0283893 	mla	r8, r3, r8, r3
+; start loop
 0000b090:	e3500000 	cmp	r0, #0
 0000b094:	e1a0cf06 	lsl	ip, r6, #30
 0000b098:	0a00001b 	beq	0xb10c
@@ -12672,7 +12704,7 @@
 0000b108:	e0877008 	add	r7, r7, r8
 0000b10c:	e2866001 	add	r6, r6, #1
 0000b110:	e1540006 	cmp	r4, r6
-0000b114:	8affffdd 	bhi	0xb090
+0000b114:	8affffdd 	bhi	0xb090		; loop up
 0000b118:	f57ff04f 	dsb	sy
 0000b11c:	e8bd81f0 	pop	{r4, r5, r6, r7, r8, pc}
 
@@ -12931,6 +12963,7 @@
 0000b434:	e6ef0070 	uxtb	r0, r0
 0000b438:	e8bd8038 	pop	{r3, r4, r5, pc}
 
+; ==============================================================
 ; subroutine - many calls -- sphinx ()
 ; just a silly name until I figure out what it does.
 ; arguments in r0 and r1

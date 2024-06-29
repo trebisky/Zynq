@@ -93,7 +93,7 @@ typedef struct StructPartHeader {
 	u32 SectionCount;	/* 0x1C */
 	u32 CheckSumOffset;	/* 0x20 */
 	u32 Pads1[1];
-	u32 ACOffset;	/* 0x28 */
+	u32 ACOffset;		/* 0x28 */
 	u32 Pads2[4];
 	u32 CheckSum;		/* 0x3C */
 }PartHeader;

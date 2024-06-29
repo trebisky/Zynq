@@ -921,9 +921,9 @@ u32 IsLastPartition(struct HeaderArray *H)
 
 	for (Index = 0; Index < PARTITION_HDR_WORD_COUNT - 1; Index++) {
 
-        if (H->Fields[Index] != 0x0) {
+	    if (H->Fields[Index] != 0x0) {
 			return XST_FAILURE;
-		}
+	    }
 	}
 
     return XST_SUCCESS;

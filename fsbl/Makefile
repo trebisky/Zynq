@@ -21,7 +21,7 @@ LIBPATH := ./lib
 
 ASM_OBJS = asm_vectors.o boot.o xil-crt0.o translation_table.o cpu_init.o
 CPU_OBJS = vectors.o xil_exception.o xtime_l.o ps7_init.o
-X_OBJS = fsbl.o ffs.o drivers.o
+X_OBJS = fsbl.o ffs.o drivers.o nand_drv.o
 U_OBJS = utils.o xil_printf.o
 CORE_OBJS =
 
@@ -100,6 +100,7 @@ fsbl.o:	FORCE
 	cd fsbl ; make
 	cd ffs ; make
 	cd drivers ; make
+	cd nand ; make
 
 FORCE:
 

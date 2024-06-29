@@ -4,23 +4,19 @@
 CC := arm-none-eabi-gcc
 AS=arm-none-eabi-gcc
 LD=arm-none-eabi-gcc
-OD=arm-none-eabi-objdump
 
 #CFLAGS=-Wall -O0 -g3 -c -fmessage-length=0
-CFLAGS=-Wall -O0 -g3 -c
+CFLAGS=-Wall -O0 -g3
 ECFLAGS = -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard
 
 #INCLUDEPATH := -I$(BSP_DIR)/ps7_cortexa9_0/include -I. -I$(BSP_DIR)/$(BOARD)
 INCLUDEPATH := -I../include -I.. -I.
 
-ASM_OBJS = fsbl_handoff.o
-
 # We can do without rsa.c, but we need md5.c
 #CORE_OBJS = fsbl_hooks.o  image_mover.o  main.o  md5.o  nand.o  nor.o  pcap.o  qspi.o  rsa.o  sd.o
 #CORE_OBJS = fsbl_hooks.o  image_mover.o  main.o  md5.o  nand.o  nor.o  pcap.o  qspi.o  sd.o
-CORE_OBJS = fsbl_hooks.o  image_mover.o  main.o  md5.o  nand.o  nor.o  pcap.o  sd.o
 
-OBJS = $(ASM_OBJS) $(CORE_OBJS)
+OBJS = xnandps.o xnandps_g.o xnandps_onfi.o xnandps_sinit.o xnandps_bbm.o
 
 %.o:%.c
 	$(CC) $(CC_FLAGS) $(CFLAGS) $(ECFLAGS) -c $< -o $@ $(INCLUDEPATH)
@@ -30,14 +26,10 @@ OBJS = $(ASM_OBJS) $(CORE_OBJS)
 
 # ---------------------------------------------------------
 
-all: ../fsbl.o
+all: ../nand_drv.o
 
-../fsbl.o:		$(OBJS)
-	$(LD) -r -o ../fsbl.o $(OBJS)
-
-dump:
-	$(OD) -D nand.o
-	#$(OD) -D sd.o
+../nand_drv.o:		$(OBJS)
+	$(LD) -r -o ../nand_drv.o $(OBJS)
 
 clean:
 	rm -rf *.o
