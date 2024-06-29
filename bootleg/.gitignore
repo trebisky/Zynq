@@ -1,0 +1,4 @@
+*.o
+mapper
+boot_fsbl
+*.bin
