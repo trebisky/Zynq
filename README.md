@@ -10,6 +10,7 @@ The projects here are:
 1. bootrom - extraction and disassembly of the Zynq bootrom
 2. fsbl - the Xilinx fsbl code rearranged
 3. secret - the "secret" uart loader in the bootrom
+4. bootleg - tools for analyzing boot images
 
 Also see my board specific Zynq project respositories:
 
