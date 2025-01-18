@@ -810,6 +810,7 @@
 000006ac:	e5932000 	ldr	r2, [r3]
 000006b0:	e3520000 	cmp	r2, #0		; check flag
 000006b4:	18bd8010 	popne	{r4, pc}
+
 ; set up uart1
 ; 0xe0001018 is uart1 baud
 ; 0xe0001034 is uart1 baud div
@@ -6510,9 +6511,11 @@
 000057c8:	e1a00004 	mov	r0, r4
 000057cc:	e8bd4070 	pop	{r4, r5, r6, lr}
 
-; never called ...
+; code debris ?
 000057d0:	ea00160a 	b	0xb000		; io_write
 000057d4:	e280033e 	add	r0, r0, #-134217728	@ 0xf8000000
+
+; never called ...
 000057d8:	e92d4008 	push	{r3, lr}
 000057dc:	e2800c07 	add	r0, r0, #1792	@ 0x700
 000057e0:	ebffffef 	bl	0x57a4		; mio_pin()
@@ -22308,7 +22311,7 @@ ffff_ff58: 0000ff0c:	e12fff1e 	bx	lr
 00018728:	30746242 	; 0tbB
 0001872c:	00000000
 
-100018730:	42627431
+00018730:	42627431
 00018734:	00000000
 
 00018738:	2c2b2a22

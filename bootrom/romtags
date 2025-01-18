@@ -1,0 +1,101 @@
+#!/bin/python
+
+# Tom Trebisky  1-18-2025
+#
+# I got this idea when I was working with the
+# Sun 3/80 bootrom.  I could generate a tags
+# file that would let me do ctags type stuff
+# in vim.  For the sun 3/80, the resultant
+# tags file looks like this:
+#
+#0xfefe00fc  rom.dis /^fefe00fc/
+#0xfefe0100  rom.dis /^fefe0100/
+#fefe00fc    rom.dis /^fefe00fc/
+#fefe0100    rom.dis /^fefe0100/
+#
+# For Zynq, we also need to run the tags through sort
+
+import re
+import subprocess
+
+tmpfile = "tags.raw"
+outfile = "tags"
+
+# for the sun
+#infile = "rom.dis"
+#pattern = r"^fef.....:"
+
+# for the Zynq bootrom
+infile = "bootrom.txt"
+pattern = r"^000.....:"
+
+num = 1
+
+of = open ( tmpfile, "w")
+
+# Use line numbers
+# This works, but the problem is that I am
+# always editing the disassembly file, and
+# adding lines.  Searching by pattern makes
+# us immune to this
+def process_OLD ( line, num, prefix ) :
+    tag = re.sub ( r":.*", "", line )
+    xtag = prefix + tag
+    cmd = [ xtag, infile, str(num) ]
+    of.write ( "\t".join(cmd) + "\n" )
+
+# Use pattern
+# We often see "bl 0x7734
+# So we want to strip leading zeros
+# and prepend a "0x"
+def process_zynq ( line ) :
+    prefix = "0x"
+    tag = re.sub ( r":.*", "", line )
+    stag = re.sub(r"^0+", "", tag)
+    xtag = prefix + stag
+    srch = "/^" + tag + "/"
+    cmd = [ xtag, infile, srch ]
+    of.write ( "\t".join(cmd) + "\n" )
+
+# Use pattern
+def process ( line, num, prefix ) :
+    tag = re.sub ( r":.*", "", line )
+    xtag = prefix + tag
+    srch = "/^" + tag + "/"
+    cmd = [ xtag, infile, srch ]
+    of.write ( "\t".join(cmd) + "\n" )
+
+# spit out tags with 0x prefix.
+# and with leading zeros removed from address
+# vim likes these first so tags are "sorted"
+with open ( infile ) as f:
+    for raw in f:
+        line = raw.strip()
+        if re.search(pattern, line):
+            process_zynq ( line )
+        num += 1
+
+with open ( outfile, "w") as out:
+    subprocess.run ( ["sort", tmpfile] , stdout=out)
+
+subprocess.run ( ["rm", tmpfile] )
+
+## spit out tags with 0x prefix.
+## vim likes these first so tags are "sorted"
+#with open ( infile ) as f:
+#    for raw in f:
+#        line = raw.strip()
+#        if re.search(pattern, line):
+#            process ( line, num, "0x" )
+#        num += 1
+#
+## spit out tags without 0x prefix.
+## Not as common as the above, but handy also
+#with open ( infile ) as f:
+#    for raw in f:
+#        line = raw.strip()
+#        if re.search(pattern, line):
+#            process ( line, num, "" )
+#        num += 1
+
+# THE END
