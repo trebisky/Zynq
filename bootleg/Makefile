@@ -7,3 +7,6 @@ boot_fsbl:	boot_fsbl.c
 
 mapper:		mapper.c
 	cc -o mapper mapper.c
+
+clean:
+	rm -f mapper boot_fsbl

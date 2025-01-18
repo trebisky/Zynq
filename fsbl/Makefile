@@ -8,7 +8,9 @@ AS=arm-none-eabi-gcc
 # You can tell it to try to format messages to a certain length.
 # zero says "no wrapping", let them be as long as need be.
 #CFLAGS=-Wall -O0 -g3 -c -fmessage-length=0
-CFLAGS=-Wall -O0 -g3 -c
+#CFLAGS=-Wall -O0 -g3 -c
+# -Os is like -O2, but avoids bulky optimizations
+CFLAGS=-Wall -Os -g3 -c
 ECFLAGS = -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard
 
 GCCVERSION = `$(CC) -dumpversion`
@@ -56,6 +58,8 @@ OBJS = $(ASM_OBJS) $(CPU_OBJS) $(X_OBJS) $(CORE_OBJS) $(U_OBJS)
 LD=arm-none-eabi-gcc
 #LD=arm-none-eabi-ld
 
+OBJCOPY = arm-none-eabi-objcopy
+
 # The -v switch has gcc tell you all that it is doing
 #L1FLAGS = -v $(ECFLAGS) -Tlscript.ld -L$(LIBPATH) -Wl,--no-warn-rwx-segments
 # Using gcc
@@ -94,7 +98,7 @@ L2FLAGS = -lgcc -nostdlib
 
 # ---------------------------------------------------------
 
-all: fsbl.elf
+all: fsbl.bin
 
 fsbl.o:	FORCE
 	cd fsbl ; make
@@ -106,6 +110,9 @@ FORCE:
 
 fsbl.elf:	$(OBJS)
 	$(LD) $(L1FLAGS)  -o $@ $(OBJS) $(L2FLAGS)
+
+fsbl.bin: fsbl.elf
+	$(OBJCOPY) -O binary fsbl.elf fsbl.bin
 
 .PHONY:	tags
 

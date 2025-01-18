@@ -61,9 +61,11 @@ main ( int argc, char **argv )
 	printf ( "Image read, %d bytes\n", im_size );
 
 	zbp = (struct zynq_bootheader *) image;
-	printf ( "FSBL offset: %08x\n", zbp->sourceOffset );
-	printf ( "FSBL size: %08x\n", zbp->fsblLength );
-	printf ( "FSBL size2: %08x\n", zbp->totalFsblLength );
+	printf ( "FSBL offset: 0x%08x\n", zbp->sourceOffset );
+	printf ( "FSBL size: 0x%08x %d\n", zbp->fsblLength, zbp->fsblLength );
+	printf ( "FSBL load address: 0x%08x\n", zbp->fsblLoadAddress );
+	printf ( "FSBL exec address: 0x%08x\n", zbp->fsblExecAddress );
+	// printf ( "FSBL size2: %08x\n", zbp->totalFsblLength );
 
 	save_fsbl ( "fsbl.out", &image[zbp->sourceOffset], zbp->fsblLength );
 }

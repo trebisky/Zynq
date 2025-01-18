@@ -6,7 +6,8 @@ AS=arm-none-eabi-gcc
 LD=arm-none-eabi-gcc
 
 #CFLAGS=-Wall -O0 -g3 -c -fmessage-length=0
-CFLAGS=-Wall -O0 -g3
+#CFLAGS=-Wall -O0 -g3
+CFLAGS=-Wall -Os -g3
 ECFLAGS = -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard
 
 #INCLUDEPATH := -I$(BSP_DIR)/ps7_cortexa9_0/include -I. -I$(BSP_DIR)/$(BOARD)

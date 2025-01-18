@@ -2,3 +2,5 @@
 mapper
 boot_fsbl
 *.bin
+*.odl
+fsbl.out
