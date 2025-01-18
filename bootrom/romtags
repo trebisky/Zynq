@@ -18,8 +18,9 @@
 import re
 import subprocess
 
-tmpfile = "tags.raw"
 outfile = "tags"
+tmp1file = "tags.raw"
+tmp2file = "tags.sort"
 
 # for the sun
 #infile = "rom.dis"
@@ -31,7 +32,7 @@ pattern = r"^000.....:"
 
 num = 1
 
-of = open ( tmpfile, "w")
+of = open ( tmp1file, "w")
 
 # Use line numbers
 # This works, but the problem is that I am
@@ -75,10 +76,35 @@ with open ( infile ) as f:
             process_zynq ( line )
         num += 1
 
-with open ( outfile, "w") as out:
-    subprocess.run ( ["sort", tmpfile] , stdout=out)
+of.close()
 
-subprocess.run ( ["rm", tmpfile] )
+tmp2file = "tags.sort"
+
+with open ( tmp2file, "w") as out:
+    subprocess.run ( ["sort", tmp1file] , stdout=out)
+
+# The story here is that Vim does not like
+# the sort order, even when I try sorting it in
+# various ways.  Vim wants to do a binary search,
+# which is a fine idea, except it fails with my file.
+# So, putting this header up front tells it that the file
+# is unsorted, so it does a linear search.  This could be
+# bad and slow, but I notice no difference at all, and
+# above all: IT WORKS!
+# I might as well not sort at all, but I am done working
+# on this for today.  1-18-2025
+
+hdr = "!_TAG_FILE_SORTED	0	/0=unsorted, 1=sorted, 2=foldcase/"
+
+of = open ( outfile, "w")
+
+with open ( tmp2file ) as f:
+    of.write ( hdr )
+    for raw in f:
+        of.write ( raw )
+
+subprocess.run ( ["rm", tmp1file] )
+subprocess.run ( ["rm", tmp2file] )
 
 ## spit out tags with 0x prefix.
 ## vim likes these first so tags are "sorted"

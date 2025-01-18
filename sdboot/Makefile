@@ -61,6 +61,13 @@ $(TARGET): $(BOARD).elf
 dis: $(BOARD).elf
 	$(DUMP) -d $(BOARD).elf -z >$(BOARD).dis
 
+fetch:
+	cp /u1/Projects/Zynq/Git_zynq/secret/lots.bin .
+	cp /u1/Projects/Zynq/Git_zynq/secret/loader.py  zloader.py
+
+test:
+	./loader.py zzyzx.bin
+
 .PHONY: clean
 clean:
 	rm -f *.o

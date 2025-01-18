@@ -12,6 +12,9 @@ more:
 	git commit -am "More"
 	git push origin master
 
+tags: romtags bootrom.txt
+	./romtags
+
 bootrom.elf: wrap
 	./wrap $(ROM) bootrom.elf
 

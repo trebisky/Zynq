@@ -1296,7 +1296,7 @@
 00000d00:	e59d200c 	ldr	r2, [sp, #12]
 00000d04:	e3120008 	tst	r2, #8
 00000d08:	0afffff3 	beq	0xcdc
-00000d0c:	eb0012b6 	bl	0x57ec
+00000d0c:	eb0012b6 	bl	0x57ec		; mio_setup
 00000d10:	e59d0008 	ldr	r0, [sp, #8]
 00000d14:	e3100080 	tst	r0, #128	@ 0x80
 00000d18:	0a000019 	beq	0xd84
@@ -2016,6 +2016,7 @@
 0000166c:	e1a00004 	mov	r0, r4
 00001670:	eb002662 	bl	0xb000		; io_write
 ; write 0x767b to 0xf800d000
+; (same value as slcr lock key)
 00001674:	e3a00a0d 	mov	r0, #0xd000
 00001678:	e34f0800	movt	r0, #0xf800
 0000167c:	e307167b	movw	r1, #0x767b
@@ -3461,9 +3462,9 @@
 00002960:	e1a00004 	mov	r0, r4
 00002964:	e3811001 	orr	r1, r1, #1
 00002968:	eb0021a4 	bl	0xb000		; io_write
-0000296c:	e3a00a0d 	mov	r0, #53248	@ 0xd000
+0000296c:	e3a00a0d 	mov		r0, #0xd000
 00002970:	e34f0800	movt	r0, #0xf800
-00002974:	e307167b	movw	r1, #0x767b
+00002974:	e307167b	movw	r1, #0x767b		; lock key
 00002978:	e8bd4010 	pop	{r4, lr}
 0000297c:	ea00219f 	b	0xb000		; io_write
 
@@ -6485,6 +6486,7 @@
 00005780:	e8bd81f0 	pop	{r4, r5, r6, r7, r8, pc}
 
 ; subroutine - write to SLCR unlock register
+; slcr_unlock
 00005784:	e3a00008 	mov	r0, #8
 00005788:	e30d1f0d	movw	r1, #0xdf0d
 0000578c:	e34f0800	movt	r0, #0xf800
@@ -6509,11 +6511,14 @@
 000057c0:	e3c0103f 	bic	r1, r0, #63	@ 0x3f
 000057c4:	e1811003 	orr	r1, r1, r3
 000057c8:	e1a00004 	mov	r0, r4
+; the following is NOT a return, the final register would
+; be pc for that.  This restores registers to allow a
+; "tail call" to io_write()
 000057cc:	e8bd4070 	pop	{r4, r5, r6, lr}
+000057d0:	ea00160a 	b	0xb000		; io_write
 
 ; code debris ?
-000057d0:	ea00160a 	b	0xb000		; io_write
-000057d4:	e280033e 	add	r0, r0, #-134217728	@ 0xf8000000
+000057d4:	e280033e 	add	r0, r0, #0xf8000000
 
 ; never called ...
 000057d8:	e92d4008 	push	{r3, lr}
@@ -6522,15 +6527,20 @@
 000057e4:	e3a00000 	mov	r0, #0
 000057e8:	e8bd8008 	pop	{r3, pc}
 
-; subroutine
+; subroutine writes to a long list of MIO registers.
+; mio_setup
 000057ec:	e3a00008 	mov	r0, #8
-000057f0:	e30d1f0d	movw	r1, #0xdf0d
+000057f0:	e30d1f0d	movw	r1, #0xdf0d		; unlock key
+
 000057f4:	e92d4070 	push	{r4, r5, r6, lr}
 000057f8:	e34f0800	movt	r0, #0xf800
 000057fc:	e34d1f0d	movt	r1, #0xdf0d
-00005800:	e3004724	movw	r4, #0x724
+00005800:	e3004724	movw	r4, #0x724		; used way below
+
 00005804:	eb0015fd 	bl	0xb000		; io_write
 ; the above is a write to the SLCR unlock register
+; now get busy with out list of pins
+
 00005808:	e3a00c07 	mov	r0, #0x700
 0000580c:	e34f0800	movt	r0, #0xf800	; 0xf8000700
 00005810:	e3011601	movw	r1, #0x1601
@@ -6568,6 +6578,7 @@
 00005890:	e3001601	movw	r1, #0x601
 00005894:	e30067d8	movw	r6, #0x7d8
 00005898:	eb0015d8 	bl	0xb000		; io_write
+
 0000589c:	e34f4800	movt	r4, #0xf800
 000058a0:	e34f6800	movt	r6, #0xf800
 000058a4:	e1a00004 	mov	r0, r4
@@ -13389,9 +13400,10 @@
 0000fda8:	e59f8194 	ldr	r8, [pc, #404]	@ 0xff44 ; (f8000004)
 0000fdac:	e5878000 	str	r8, [r7]
 
+; slcr_lock
 ; *(0xffff_ff04) = 0000767b
 0000fdb0:	e3e070fb 	mvn	r7, #0xfb	; 0xffff_ff04
-0000fdb4:	e59f818c 	ldr	r8, [pc, #396]	@ 0xff48 ; (0000767b)
+0000fdb4:	e59f818c 	ldr	r8, [pc, #396]	@ 0xff48 ; (0000767b) -- lock key
 0000fdb8:	e5878000 	str	r8, [r7]
 
 ; 0xf800025c is BOOT mode
@@ -13538,7 +13550,7 @@ ffff_fe88: 0000fea4:	e5878000 	str	r8, [r7]
 ; See TRM pages 1576 - 1577
 ;
 ; 0xffff_ff00 = 0xf800_0004 (the lock register)
-; 0xffff_ff04 = 0x0000_767b
+; 0xffff_ff04 = 0x0000_767b (the lock key)
 ;
 ; *(*0xffff_ff00) = *(0xffff_ff04)
 ffff_fe8c: 0000fea8:	e3e040ff 	mvn	r4, #0xff	; 0xffff_ff00
@@ -13632,7 +13644,7 @@ ffff_ff58: 0000ff0c:	e12fff1e 	bx	lr
 0000ff3c:	f8000244
 0000ff40:	e3e0f0d3
 0000ff44:	f8000004
-0000ff48:	0000767b
+0000ff48:	0000767b	; slcr lock key
 0000ff4c:	f800025c
 0000ff50:	f8000900
 0000ff54:	f8000240
