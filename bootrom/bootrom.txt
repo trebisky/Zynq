@@ -11880,6 +11880,9 @@
 
 ; subroutine - setup_clocks ()
 ;  one call early in MAIN
+;
+; These clock registers are in the slcr.
+; See page 1570 of the TRM
 
 0000a5c4:	e52de004 	push	{lr}
 0000a5c8:	e24dd014 	sub	sp, sp, #20
@@ -11889,11 +11892,11 @@
 0000a5d8:	e3530040 	cmp	r3, #64	@ 0x40
 0000a5dc:	0a00003f 	beq	0xa6e0
 
-; read SLCR - ARM_CLK_CONTROL
+; ARM_CLK_CONTROL f800_120
+;  - clear bits at 0x30 to set the ARM pll as the CPU clock source
 0000a5e0:	e3a00e12 	mov	r0, #0x120
 0000a5e4:	e34f0800	movt	r0, #0xf800
 0000a5e8:	eb000271 	bl	0xafb4		; io_read ( 0xf800_0120)
-
 0000a5ec:	e58d0008 	str	r0, [sp, #8]
 0000a5f0:	e3a00e12 	mov	r0, #0x120
 0000a5f4:	e59dc008 	ldr	ip, [sp, #8]
@@ -11905,7 +11908,7 @@
 0000a60c:	e59d1008 	ldr	r1, [sp, #8]
 0000a610:	eb00027a 	bl	0xb000		; io_write ( 0xf800_0120, x )
 
-; ARM_PLL_CONTROL
+; ARM_PLL_CONTROL f800_0100 -- assert reset
 0000a614:	e3a00c01 	mov	r0, #0x100
 0000a618:	e34f0800	movt	r0, #0xf800
 0000a61c:	eb000264 	bl	0xafb4		; io_read ( 0xf800_0100 )
@@ -11918,6 +11921,7 @@
 0000a638:	e59d1008 	ldr	r1, [sp, #8]
 0000a63c:	eb00026f 	bl	0xb000		; io_write ( 0xf800_0100, x )
 
+; ARM_PLL_CONTROL -- release reset
 0000a640:	e3a00c01 	mov	r0, #0x100
 0000a644:	e34f0800	movt	r0, #0xf800
 0000a648:	eb000259 	bl	0xafb4		; io_read
@@ -11930,7 +11934,7 @@
 0000a664:	e59d1008 	ldr	r1, [sp, #8]
 0000a668:	eb000264 	bl	0xb000		; io_write
 
-; IO_PLL_CONTROL
+; IO_PLL_CONTROL  f800_0108 -- assert reset
 0000a66c:	e3a00f42 	mov	r0, #0x108
 0000a670:	e34f0800	movt	r0, #0xf800
 0000a674:	eb00024e 	bl	0xafb4		; io_read
@@ -11943,6 +11947,7 @@
 0000a690:	e59d1008 	ldr	r1, [sp, #8]
 0000a694:	eb000259 	bl	0xb000		; io_write
 
+; IO_PLL_CONTROL  f800_0108 -- release reset
 0000a698:	e3a00f42 	mov	r0, #264	@ 0x108
 0000a69c:	e34f0800	movt	r0, #0xf800
 0000a6a0:	eb000243 	bl	0xafb4		; io_read
@@ -11976,21 +11981,24 @@
 0000a6f8:	eb000208 	bl	0xaf20
 0000a6fc:	ea000003 	b	0xa710
 
+; This loop will poll PLL status until
+; both ARM and IO are locked.
+
 0000a700:	e1cd00d0 	ldrd	r0, [sp]
 0000a704:	eb000217 	bl	0xaf68
 0000a708:	e3500000 	cmp	r0, #0
 0000a70c:	1a000008 	bne	0xa734
 
-; read PLL status
+; PLL status  f800_010c
 0000a710:	e3a00f43 	mov	r0, #0x10c
 0000a714:	e34f0800	movt	r0, #0xf800	; 0xf800_010c
 0000a718:	eb000225 	bl	0xafb4		; io_read
 
 0000a71c:	e58d0008 	str	r0, [sp, #8]
 0000a720:	e59d3008 	ldr	r3, [sp, #8]
-0000a724:	e2030005 	and	r0, r3, #5
+0000a724:	e2030005 	and	r0, r3, #5	; get ARM_PLL_LOCK and IO_PLL_LOCK
 0000a728:	e3500005 	cmp	r0, #5
-0000a72c:	1afffff3 	bne	0xa700		; loop
+0000a72c:	1afffff3 	bne	0xa700		; loop until both are locked
 0000a730:	eaffffea 	b	0xa6e0
 
 0000a734:	e3a00b09 	mov	r0, #9216	@ 0x2400
@@ -13153,7 +13161,7 @@
 
 ; ===============================================
 ; OCM --- short course
-;  We have 256 bytes of SRAM and 128K of bootrom code.
+;  We have 256K bytes of SRAM and 128K of bootrom code.
 ;  Let's talk about 64K chunks
 ;  For the SRAM we have A, B, C, and D
 ;  From the bootrom we have R0 and R1 lets say.

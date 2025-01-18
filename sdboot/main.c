@@ -47,10 +47,49 @@ struct zynq_uart {
 /* Bits in the cstatus register */
 #define CS_TXFULL	BIT(4)
 
+/*
+; Set MIO pins for uart
+; MIO pins are in the SLCR
+; see page 52 in the TRM for a cute table
+; page 1570 covers the SLCR,
+; f800_07c0 is pin 48
+; f800_07c4 is pin 49
+; See page 1679, 1680 for these specific pins
+; as you might expect this sets pin 48 to TxD and 49 to RxD
+; (also some values get set in RAM here)
+*/
+
+#define MIO_TX	0xf80007c0	/* pin 48 */
+#define MIO_RX	0xf80007c4	/* pin 49 */
+
+static void
+mio_pin_init ( void )
+{
+}
+
+/*
+0000a1f8:   e3a00d1f    mov r0, #0x7c0  ; ..
+0000a1fc:   e582c000    str ip, [r2]    ; *0x704a0 = 0xe000_1000
+0000a200:   e5835000    str r5, [r3]    ; *0x70498 = 0
+0000a204:   e34f0800    movt    r0, #0xf800 ; f800_07c0
+0000a208:   e3a010e0    mov r1, #0xe0
+0000a20c:   ebffed64    bl  0x57a4      ; mio_pin ()
+0000a210:   e30007c4    movw    r0, #0x7c4
+0000a214:   e3a010e0    mov r1, #0xe0
+0000a218:   e34f0800    movt    r0, #0xf800 ; f800_07c4
+0000a21c:   ebffed60    bl  0x57a4      ; mio_pin()
+*/
+
+static void
+baud_init ( void )
+{
+}
+
 void
 uart_init ( void )
 {
-	/* nothing here, we rely on U-Boot */
+	mio_pin_init ();
+	baud_init ();
 }
 
 void

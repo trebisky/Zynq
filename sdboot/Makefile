@@ -43,7 +43,10 @@ DUMP			=	$(CROSS_COMPILE)objdump
 
 # -------------------------------------
 
-all: $(TARGET)
+all: mkzboot $(TARGET)
+
+mkzboot: mkzboot.c
+	cc -o mkzboot mkzboot.c
 
 help:
 	$(CC) --help

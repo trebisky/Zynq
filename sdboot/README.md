@@ -31,3 +31,5 @@ yet had luck using it.
 One last note.  I will have to fully initialize the
 serial port as the bootrom will not do that for me when
 booting from SD card.
+
+The original code came from the zzyzx project in my Antminer repo.
