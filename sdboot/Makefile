@@ -68,6 +68,19 @@ fetch:
 test:
 	./loader.py zzyzx.bin
 
+BOOT.BIN:
+	./mkzboot
+
+kinstall:
+	rm /run/media/tom/1936-F32A/BOOT.BIN
+	sync
+	cp Kyu/BOOT.bin /run/media/tom/1936-F32A/BOOT.BIN
+	sync
+
+install: BOOT.BIN
+	cp BOOT.BIN /run/media/tom/1936-F32A
+	sync
+
 .PHONY: clean
 clean:
 	rm -f *.o
