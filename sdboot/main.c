@@ -156,7 +156,13 @@ uart_pin_init ( void )
 /* This yields 115200 baud for the bootrom "secret" code.
  * It also does that for me when loading this code via
  * the secret uart protocol.
- * XXX - will it still work when loaded from SD card?
+ *
+ * AND, amazingly it worked just fine when loaded
+ * from the SD card!
+ *
+ * This lets us draw some conclusions about the clock
+ * setup!  We could even extend this to include my
+ * simple printf and then dump some registers.
  */
 static void
 baud_init ( void )
