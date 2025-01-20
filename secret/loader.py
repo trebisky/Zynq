@@ -380,7 +380,7 @@ class Zynq () :
         # who knows what this is all about.
         hdr += p("<I", 0x8c0)
 
-        # 0x9c -- qSPI config word
+        # 0x9c -- partition header table offset
         # pointer to partition header table
         # who knows what this is all about.
         hdr += p("<I", 0x8c0)
